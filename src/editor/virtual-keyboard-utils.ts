@@ -119,6 +119,12 @@ export class VirtualKeyboard implements VirtualKeyboardInterface {
 }
 
 const KEYBOARDS = {
+    custom1: {
+        tooltip: 'keyboard.tooltip.custom1',
+        layer: 'custom1',
+        label: 'custom1',
+        layers: ['custom1'],
+    },
     numeric: {
         tooltip: 'keyboard.tooltip.numeric',
         layer: 'math',
@@ -581,6 +587,48 @@ const ALT_KEYS_BASE = {
 let ALT_KEYS = {};
 
 const LAYERS = {
+    custom1: `
+        <div class='rows'>
+            <ul>
+                <li class='fnbutton' data-insert='\\frac{#0}{#?}'><i>frac</i></li>
+                <li class='fnbutton' data-insert='$$#0^{#?}$$'></li>
+                <li class='separator w5'></li>
+                <row name='numpad-1'/>
+                <li class='separator w5'></li>
+                <li class='keycap tex' data-insert='$$\\exponentialE$$' data-alt-keys='ee'>e</li>
+                <li class='keycap tex' data-insert='$$\\imaginaryI$$' data-alt-keys='ii'>i</li>
+                <li class='keycap tex' data-latex='\\pi' data-alt-keys='numeric-pi'></li>
+            </ul>
+            <ul>
+                <li class='keycap tex' data-key='<' data-alt-keys='<'>&lt;</li>
+                <li class='keycap tex' data-key='>' data-alt-keys='>'>&gt;</li>
+                <li class='separator w5'></li>
+                <row name='numpad-2'/>
+                <li class='separator w5'></li>
+                <li class='keycap tex' data-alt-keys='x2' data-insert='$$#@^{2}$$'><span><i>x</i>&thinsp;²</span></li>
+                <li class='keycap tex' data-alt-keys='^' data-insert='$$#@^{#?}$$'><span><i>x</i><sup>&thinsp;<small>&#x2b1a;</small></sup></span></li>
+                <li class='keycap tex' data-alt-keys='sqrt' data-insert='$$\\sqrt{#0}$$' data-latex='\\sqrt{#0}'></li>
+            </ul>
+            <ul>
+                <li class='keycap tex' data-alt-keys='(' >(</li>
+                <li class='keycap tex' data-alt-keys=')' >)</li>
+                <li class='separator w5'></li>
+                <row name='numpad-3'/>
+                <li class='separator w5'></li>
+                <li class='keycap tex small' data-alt-keys='int' data-latex='\\int_0^\\infty'><span></span></li>
+                <li class='keycap tex' data-latex='\\forall' data-alt-keys='logic' ></li>
+                <li class='action font-glyph bottom right' data-alt-keys='delete' data-command='["performWithFeedback","deleteBackward"]'>&#x232b;</li></ul>
+            </ul>
+            <ul>
+                <li class='keycap' data-alt-keys='foreground-color' data-command='["applyStyle",{"color":"#cc2428"}]'><span style='border-radius: 50%;width:22px;height:22px; border: 3px solid #cc2428; box-sizing: border-box'></span></li>
+                <li class='keycap' data-alt-keys='background-color' data-command='["applyStyle",{"backgroundColor":"#fff590"}]'><span style='border-radius: 50%;width:22px;height:22px; background:#fff590; box-sizing: border-box'></span></li>
+                <li class='separator w5'></li>
+                <row name='numpad-4'/>
+                <li class='separator w5'></li>
+                <arrows/>
+            </ul>
+        </div>
+    `,
     math: `
         <div class='rows'>
             <ul>
