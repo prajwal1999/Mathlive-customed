@@ -119,11 +119,17 @@ export class VirtualKeyboard implements VirtualKeyboardInterface {
 }
 
 const KEYBOARDS = {
-    custom1: {
-        tooltip: 'keyboard.tooltip.custom1',
-        layer: 'custom1',
-        label: 'custom1',
-        layers: ['custom1'],
+    math: {
+        tooltip: 'keyboard.tooltip.Xn',
+        layer: 'custom-math',
+        label: 'X<sup>n</sup>',
+        layers: ['custom-math'],
+    },
+    chem: {
+        tooltip: 'keyboard.tooltip.Xn',
+        layer: 'custom-chem',
+        label: 'H<sub>2</sub>O',
+        layers: ['custom-chem'],
     },
     numeric: {
         tooltip: 'keyboard.tooltip.numeric',
@@ -403,13 +409,16 @@ const ALT_KEYS_BASE = {
         '\\tilde{#@}',
         '\\grave{#@}',
     ],
-    // 'absnorm': [{latex:'\\lVert #@ \\rVert', aside:'norm'},
-    //     {latex:'\\lvert #@ \\rvert', aside:'determinant'},
-    //     {latex:'\\begin{cardinality} #@ \\end{cardinality}', aside:'cardinality'},
-    //     {latex:'\\lvert #@ \\rvert', aside:'length'},
-    //     {latex:'\\lvert #@ \\rvert', aside:'order'},
-
-    // ],
+    absnorm: [
+        { latex: '\\lVert #@ \\rVert', aside: 'norm' },
+        { latex: '\\lvert #@ \\rvert', aside: 'determinant' },
+        {
+            latex: '\\begin{cardinality} #@ \\end{cardinality}',
+            aside: 'cardinality',
+        },
+        { latex: '\\lvert #@ \\rvert', aside: 'length' },
+        { latex: '\\lvert #@ \\rvert', aside: 'order' },
+    ],
     A: [
         { latex: '\\aleph', aside: 'aleph' },
         { latex: '\\forall', aside: 'for all' },
@@ -587,106 +596,130 @@ const ALT_KEYS_BASE = {
 let ALT_KEYS = {};
 
 const LAYERS = {
-    custom1: `
+    'custom-math': `
         <div class='rows'>
             <ul>
-                <li class='fnbutton' data-insert='\\frac{#0}{#?}'><i>frac</i></li>
+                <li class='fnbutton' data-insert='\\frac{#0}{#?}'></li>
                 <li class='fnbutton' data-insert='$$#0^{#?}$$'></li>
+                <li class='fnbutton' data-insert='$$#0_{#?}$$'></li>
+                <li class='fnbutton' data-insert='$$#0^{#?}_{#?}$$'></li>
                 <li class='separator w5'></li>
-                <row name='numpad-1'/>
-                <li class='separator w5'></li>
-                <li class='keycap tex' data-insert='$$\\exponentialE$$' data-alt-keys='ee'>e</li>
-                <li class='keycap tex' data-insert='$$\\imaginaryI$$' data-alt-keys='ii'>i</li>
-                <li class='keycap tex' data-latex='\\pi' data-alt-keys='numeric-pi'></li>
+                <li class='fnbutton' data-insert='$$\\frac{\\differentialD #?}{\\differentialD x}$$'><i>d</i><hr style="width:30px !important;margin:0 !important"><i>dx</i></li>
+                <li class='fnbutton' data-insert='\\pdiff{#0}{#?}'><img style='max-width:100%; max-height:100%' src='/assets/images/math_keyboard_icons/pdiff.png'> </img></li>
+                <li class='fnbutton' data-insert='\\int'></li>
+                <li class='fnbutton' data-insert='\\pi'></li>
             </ul>
             <ul>
-                <li class='keycap tex' data-key='<' data-alt-keys='<'>&lt;</li>
-                <li class='keycap tex' data-key='>' data-alt-keys='>'>&gt;</li>
+                <li class='fnbutton' data-insert='\\sqrt{#0}'></li>
+                <li class='fnbutton' data-insert='\\sqrt[#0]{#?}'></li>
+                <li class='fnbutton' data-insert='$$\{}^{n}C_{r}$$'></li>
+                <li class='fnbutton' data-insert='$$\{}^{n}P_{r}$$'></li>
                 <li class='separator w5'></li>
-                <row name='numpad-2'/>
-                <li class='separator w5'></li>
-                <li class='keycap tex' data-alt-keys='x2' data-insert='$$#@^{2}$$'><span><i>x</i>&thinsp;²</span></li>
-                <li class='keycap tex' data-alt-keys='^' data-insert='$$#@^{#?}$$'><span><i>x</i><sup>&thinsp;<small>&#x2b1a;</small></sup></span></li>
-                <li class='keycap tex' data-alt-keys='sqrt' data-insert='$$\\sqrt{#0}$$' data-latex='\\sqrt{#0}'></li>
+                <li class='fnbutton' data-insert='\\overrightarrow{#0}'><img style='max-width:100%; max-height:100%' src='/assets/images/math_keyboard_icons/vector.png'> </img></li>
+                <li class='fnbutton' data-insert='\\widehat{#0}'><img style='max-width:100%; max-height:100%' src='/assets/images/math_keyboard_icons/widehat.png'> </img></li>
+                <li class='fnbutton' data-insert='\\bigotimes'></li>
+                <li class='fnbutton' data-insert='\\bigodot'></li>
             </ul>
             <ul>
-                <li class='keycap tex' data-alt-keys='(' >(</li>
-                <li class='keycap tex' data-alt-keys=')' >)</li>
+                <li class='fnbutton' data-insert='$$(#0)$$'></li>
+                <li class='fnbutton' data-insert='$$[#0]$$'></li>
+                <li class='fnbutton' data-insert='\\{#0\\}'></li>
+                <li class='fnbutton' data-insert='\\lvert{#0}\\rvert'></li>
                 <li class='separator w5'></li>
-                <row name='numpad-3'/>
-                <li class='separator w5'></li>
-                <li class='keycap tex small' data-alt-keys='int' data-latex='\\int_0^\\infty'><span></span></li>
-                <li class='keycap tex' data-latex='\\forall' data-alt-keys='logic' ></li>
-                <li class='action font-glyph bottom right' data-alt-keys='delete' data-command='["performWithFeedback","deleteBackward"]'>&#x232b;</li></ul>
+                <li class='fnbutton' data-insert='\\angle'></li>
+                <li class='fnbutton' data-insert='\\parallel'></li>
+                <li class='fnbutton' data-insert='\\leq'></li>
+                <li class='fnbutton' data-insert='\\geq'></li>
             </ul>
             <ul>
-                <li class='keycap' data-alt-keys='foreground-color' data-command='["applyStyle",{"color":"#cc2428"}]'><span style='border-radius: 50%;width:22px;height:22px; border: 3px solid #cc2428; box-sizing: border-box'></span></li>
-                <li class='keycap' data-alt-keys='background-color' data-command='["applyStyle",{"backgroundColor":"#fff590"}]'><span style='border-radius: 50%;width:22px;height:22px; background:#fff590; box-sizing: border-box'></span></li>
+                <li class='fnbutton' data-latex='\\begin{pmatrix} #? & #? & #? \\\\ #? & #? & #? \\\\ #? & #? & #? \\end{pmatrix}'></li>
+                <li class='fnbutton' data-insert='\\begin{bmatrix} #? & #? & #? \\\\ #? & #? & #? \\\\ #? & #? & #? \\end{bmatrix}''></li>
+                <li class='fnbutton' data-insert='\\begin{vmatrix} #? & #? & #? \\\\ #? & #? & #? \\\\ #? & #? & #? \\end{vmatrix}'></li>
+                <li class='fnbutton' data-insert='\\begin{cases} #? & #? & \\\\ #? & #? & \\\\ #? & #? \\end{cases}'></li>
                 <li class='separator w5'></li>
-                <row name='numpad-4'/>
+                <li class='fnbutton' data-insert='\\infty'></li>
+                <li class='fnbutton' data-insert='\\ddots'></li>
+                <li class='fnbutton' data-insert='\\vdots'></li>
+                <li class='fnbutton' data-insert='\\cdots'></li>
+            </ul>
+        </div>
+    `,
+    'custom-chem': `
+        <div class='rows'>
+            <ul>
+                <li class='fnbutton' data-insert='$$C$$'></li>
+                <li class='fnbutton' data-insert='$$H$$'></li>
+                <li class='fnbutton' data-insert='$$O$$'></li>
+                <li class='fnbutton' data-insert='$$equiv$$'></li>
                 <li class='separator w5'></li>
-                <arrows/>
+                <li class='fnbutton' data-insert='$$\{}^{#?}_{#?}{#?}$$'></li>
+                <li class='fnbutton' data-insert='#0^{#?}'></li>
+                <li class='fnbutton' data-insert='$$#0_{#?}$$'></li>
+                <li class='fnbutton' data-insert='\\mathring{A}'></li>
+            </ul>
+            <ul>
+                <li class='fnbutton' data-insert='$$N$$'></li>
+                <li class='fnbutton' data-insert='$$F$$'></li>
+                <li class='fnbutton' data-insert='$$S$$'></li>
+                <li class='fnbutton' data-insert='$$mol$$'></li>
+                <li class='separator w5'></li>
+                <li class='fnbutton' data-insert='\\xrightarrow[#0]'><img style='max-width:100%; max-height:100%' src='/assets/images/math_keyboard_icons/xrightbelow.png'> </img></li>
+                <li class='fnbutton' data-insert='\\xrightarrow{#0}'><img style='max-width:100%; max-height:100%' src='/assets/images/math_keyboard_icons/xrightabove.png'> </img></li>
+                <li class='fnbutton' data-insert='\\xrightarrow[#0]{#?}'><img style='max-width:100%; max-height:100%' src='/assets/images/math_keyboard_icons/xrightbelowabove.png'> </img></li>
+                <li class='fnbutton' data-insert='\\mu'></li>
+            </ul>
+            <ul>
+                <li class='fnbutton' data-insert='\\longrightarrow'></li>
+                <li class='fnbutton' data-insert='\\longleftarrow'></li>
+                <li class='fnbutton' data-insert='\\longleftrightarrow'></li>
+                <li class='fnbutton' data-insert='$$kJ$$'></li>
+                <li class='separator w5'></li>
+                <li class='fnbutton' data-insert='\\xrightleftharpoons[#0]'><img style='max-width:100%; max-height:100%' src='/assets/images/math_keyboard_icons/xharpoonbelow.png'> </img></li>
+                <li class='fnbutton' data-insert='\\xrightleftharpoons{#0}'><img style='max-width:100%; max-height:100%' src='/assets/images/math_keyboard_icons/xharpoonabove.png'> </img></li>
+                <li class='fnbutton' data-insert='\\xrightleftharpoons[#0]{#?}'><img style='max-width:100%; max-height:100%' src='/assets/images/math_keyboard_icons/xharpoonbelowabove.png'> </img></li>
+                <li class='fnbutton' data-insert='\\triangle'></li>
+            </ul>
+            <ul>
+                <li class='fnbutton' data-insert='\\rightleftarrows'></li>
+                <li class='fnbutton' data-insert='\\rightleftharpoons'></li>
+                <li class='fnbutton' data-insert='\\longmapsto'></li>
+                <li class='fnbutton' data-insert='$$K$$'></li>
+                <li class='separator w5'></li>
+                <li class='fnbutton' data-insert='\\Longrightarrow'></li>
+                <li class='fnbutton' data-insert='\\Longleftarrow'></li>
+                <li class='fnbutton' data-insert='\\Longleftrightarrow'></li>
+                <li class='fnbutton' data-insert='\\degree'></li>
             </ul>
         </div>
     `,
     math: `
         <div class='rows'>
             <ul>
-                <li class='keycap tex' data-alt-keys='x-var'><i>x</i></li>
-                <li class='keycap tex' data-alt-keys='n-var'><i>n</i></li>
-                <li class='separator w5'></li>
                 <row name='numpad-1'/>
-                <li class='separator w5'></li>
-                <li class='keycap tex' data-insert='$$\\exponentialE$$' data-alt-keys='ee'>e</li>
-                <li class='keycap tex' data-insert='$$\\imaginaryI$$' data-alt-keys='ii'>i</li>
-                <li class='keycap tex' data-latex='\\pi' data-alt-keys='numeric-pi'></li>
             </ul>
             <ul>
-                <li class='keycap tex' data-key='<' data-alt-keys='<'>&lt;</li>
-                <li class='keycap tex' data-key='>' data-alt-keys='>'>&gt;</li>
-                <li class='separator w5'></li>
                 <row name='numpad-2'/>
-                <li class='separator w5'></li>
-                <li class='keycap tex' data-alt-keys='x2' data-insert='$$#@^{2}$$'><span><i>x</i>&thinsp;²</span></li>
-                <li class='keycap tex' data-alt-keys='^' data-insert='$$#@^{#?}$$'><span><i>x</i><sup>&thinsp;<small>&#x2b1a;</small></sup></span></li>
-                <li class='keycap tex' data-alt-keys='sqrt' data-insert='$$\\sqrt{#0}$$' data-latex='\\sqrt{#0}'></li>
             </ul>
             <ul>
-                <li class='keycap tex' data-alt-keys='(' >(</li>
-                <li class='keycap tex' data-alt-keys=')' >)</li>
-                <li class='separator w5'></li>
                 <row name='numpad-3'/>
-                <li class='separator w5'></li>
-                <li class='keycap tex small' data-alt-keys='int' data-latex='\\int_0^\\infty'><span></span></li>
-                <li class='keycap tex' data-latex='\\forall' data-alt-keys='logic' ></li>
-                <li class='action font-glyph bottom right' data-alt-keys='delete' data-command='["performWithFeedback","deleteBackward"]'>&#x232b;</li></ul>
             </ul>
             <ul>
-                <li class='keycap' data-alt-keys='foreground-color' data-command='["applyStyle",{"color":"#cc2428"}]'><span style='border-radius: 50%;width:22px;height:22px; border: 3px solid #cc2428; box-sizing: border-box'></span></li>
-                <li class='keycap' data-alt-keys='background-color' data-command='["applyStyle",{"backgroundColor":"#fff590"}]'><span style='border-radius: 50%;width:22px;height:22px; background:#fff590; box-sizing: border-box'></span></li>
-                <li class='separator w5'></li>
                 <row name='numpad-4'/>
-                <li class='separator w5'></li>
-                <arrows/>
             </ul>
         </div>
     `,
     'lower-roman': `
         <div class='rows'>
             <ul>
-                <row name='numpad-1' class='if-wide'/>
                 <row name='lower-1' shift-layer='upper-roman'/>
             </ul>
             <ul>
-                <row name='numpad-2' class='if-wide'/>
                 <row name='lower-2'  shift-layer='upper-roman''/>
             </ul>
             <ul>
-                <row name='numpad-3' class='if-wide'/>
                 <row name='lower-3'  shift-layer='upper-roman''/>
             </ul>
             <ul>
-                <row name='numpad-4' class='if-wide'/>
                 <li class='keycap' >;</li>
                 <li class='keycap' data-alt-keys=','>,</li>
                 <li class='keycap w50' data-key=' ' data-alt-keys='space'>&nbsp;</li>
@@ -927,7 +960,7 @@ const LAYERS = {
                 <li class='fnbutton' data-insert='\\sin'></li>
                 <li class='fnbutton' data-insert='\\sin^{-1}'></li>
                 <li class='fnbutton' data-insert='\\ln'></li>
-                <li class='fnbutton' data-insert='\\exponentialE^{#?}'></li>
+                <li class='fnbutton' data-insert='\\exponentialE^{#?}'><i>e<sup>x</sup></i></li>
                 <li class='bigfnbutton' data-insert='$$\\operatorname{lcm}(#?)$$' data-latex='\\operatorname{lcm}()'></li>
                 <li class='bigfnbutton' data-insert='$$\\operatorname{ceil}(#?)$$' data-latex='\\operatorname{ceil}()'></li>
                 <li class='bigfnbutton' data-insert='$$\\lim_{n\\to\\infty}$$'></li>
@@ -953,7 +986,7 @@ const LAYERS = {
                 <li class='bigfnbutton' data-insert='$$#0 \\mod$$' data-latex='\\mod'></li>
                 <li class='bigfnbutton' data-insert='$$\\operatorname{round}(#?) $$' data-latex='\\operatorname{round}()'></li>
                 <li class='bigfnbutton' data-insert='$$\\prod_{n\\mathop=0}^{\\infty}$$' data-latex='{\\scriptstyle \\prod_{n=0}^{\\infty}}'></li>
-                <li class='bigfnbutton' data-insert='$$\\frac{\\differentialD #0}{\\differentialD x}$$'></li>
+                <li class='bigfnbutton' data-insert='$$\\frac{\\differentialD #0}{\\differentialD x}$$'><i>d</i><hr style="width:30px !important;margin:0 !important"><i>dx</i></li>
                 <li class='action font-glyph bottom right' data-command='["performWithFeedback","deleteBackward"]'>&#x232b;</li></ul>
             <ul><li class='separator'></li>
                 <li class='fnbutton'>(</li>
